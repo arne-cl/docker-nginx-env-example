@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+  docker-nginx-env-example:
+    build:
+      context: .
+      args:
+      - HOST # available in the container during "docker build ..."
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    environment:
+      - HOST # available in the container during "docker run ..."
